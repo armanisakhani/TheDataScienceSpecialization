@@ -1,0 +1,17 @@
+{
+    "contents" : "rm(list=ls())\nsetwd(\"03- Getting and Cleaning Data/\")\n\ndownload.file(\"https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv\" ,destfile = \"getdata_data_ss06hid.csv\" )\n\nMyData <- read.csv(\"getdata_data_ss06hid.csv\")\nnames(MyData) \nvalues <- MyData$VAL\nsum(values[!is.na(values)]==24)\n\nMyData.FES <- MyData$FES\nView(MyData.FES)\n\n\n# Question 3 --------------------------------------------------------------\nlibrary(xlsx)\ndownload.file(\"https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FDATA.gov_NGAP.xlsx\" , destfile = \"getdata_data_DATA.gov_NGAP.xlsx\", mode='wb')\n\ndat <- read.xlsx(\"getdata_data_DATA.gov_NGAP.xlsx\" ,sheetIndex = 1, rowIndex= 18:23 , colIndex=7:15 , header = T)\n\nsum(dat$Zip*dat$Ext,na.rm=T) \n\n\n# Question 4 --------------------------------------------------------------\n\ndownload.file(\"https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml \" , destfile = \"getdata_data_restaurants.xml\" )\nlibrary(XML)\ndoc <- xmlTreeParse(\"getdata_data_restaurants.xml\" , useInternal = T)\nrootNode <- xmlRoot(doc)\nxmlName(rootNode)\nnames(rootNode)\nrootNode[[1]]\nzipcode <-as.integer(xpathSApply(rootNode , \"//zipcode\" , xmlValue))\nsum(zipcode==21231)\n\n\n# Question 5 --------------------------------------------------------------\ndownload.file(\"https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv\n \" , destfile = \"data_2.R\" )\nlibrary(data.table)\nDT <- as.data.table(read.csv(\"data_2.csv\"))\nDT$pwgtp15\nDT \n# Which of the following is the fastest way to calculate the average value of the variable\n# pwgtp15 \n# broken down by sex using the data.table package?\n\nDT[,mean(pwgtp15),by=SEX]\nrowMeans(DT)[DT$SEX==1]; rowMeans(DT)[DT$SEX==2]\nsapply(split(DT$pwgtp15,DT$SEX),mean)\nmean(DT[DT$SEX==1,]$pwgtp15); mean(DT[DT$SEX==2,]$pwgtp15)\ntapply(DT$pwgtp15,DT$SEX,mean)\nmean(DT$pwgtp15,by=DT$SEX)\n\nsystem.time(DT[,mean(pwgtp15),by=SEX])\nsystem.time(rowMeans(DT)[DT$SEX==1])\nsystem.time(rowMeans(DT)[DT$SEX==2])\nsystem.time(sapply(split(DT$pwgtp15,DT$SEX),mean))\nsystem.time(tapply(DT$pwgtp15,DT$SEX,mean))\nsystem.time(sapply(split(DT$pwgtp15,DT$SEX),mean))\n\n\n",
+    "created" : 1441953103194.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "845015414",
+    "id" : "92B5A150",
+    "lastKnownWriteTime" : 1441970343,
+    "path" : "D:/OneDrive/R/My Courses/Online_Courses/TheDataScienceSpecialization/TheDataScienceSpecialization/03- Getting and Cleaning Data/week1.R",
+    "project_path" : "03- Getting and Cleaning Data/week1.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
